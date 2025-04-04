@@ -1,5 +1,6 @@
 package org.migueVA.Consola;
 
+import org.migueVA.Model.Cancion;
 import org.migueVA.Util.Ejecutable;
 import org.migueVA.Ventana.LecturaAccion;
 
@@ -28,8 +29,12 @@ public class ListaCatalogos extends LecturaAccion {
         System.out.println( "2.- Municipio");
         System.out.println( "3.- Colonia");
         System.out.println( "4.- Artista");
-        System.out.println( "5.- Salir");
-        System.out.print( " *** Su opcion = " );
+        System.out.println( "5.- Cancion");
+        System.out.println( "6.- Disco");
+        System.out.println( "7.- Disquera");
+        System.out.println( "8.- Genero Musicañ");
+        System.out.println( "9.- Salir");
+        System.out.print( " *** La Eleccion que desea es :  " );
     }
     @Override
     public int valorMinMenu()
@@ -40,7 +45,7 @@ public class ListaCatalogos extends LecturaAccion {
     @Override
     public int valorMaxMenu()
     {
-        return 5;
+        return 9;
     }
 
     @Override
@@ -60,6 +65,18 @@ public class ListaCatalogos extends LecturaAccion {
                 break;
             case 4:
                 ejecutable = ArtistaCatalogo.getInstance();
+                break;
+            case 5:
+                ejecutable = CancionCatalogo.getInstance();
+                break;
+            case 6:
+                ejecutable = DiscoCatalogo.getInstance();
+                break;
+            case 7:
+                ejecutable = DisqueraCatalogo.getInstance();
+                break;
+            case 8:
+                ejecutable = GeneroMusicalCatalogo.getInstance();
                 break;
         }
         ejecutable.setFlag( true );

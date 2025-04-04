@@ -42,6 +42,6 @@ public class MunicipioCatalogo extends Catalogos<Municipio> {
 
     @Override
     public File getFile() {
-        return new File("/Municipio.object");
+        return new File("./Municipio.object");
     }
 }

@@ -46,6 +46,6 @@ public class ColoniaCatalogo extends Catalogos<Colonia> {
 
     @Override
     public File getFile() {
-        return new File (",/Colonia.object");
+        return new File ("./Colonia.object");
     }
 }

@@ -42,6 +42,6 @@ public class ArtistaCatalogo extends Catalogos<Artista> {
 
     @Override
     public File getFile() {
-        return new File( "/Artista.object");
+        return new File( "./Artista.object");
     }
 }
