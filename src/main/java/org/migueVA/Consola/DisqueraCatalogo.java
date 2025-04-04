@@ -43,6 +43,6 @@ public class DisqueraCatalogo extends Catalogos<Disquera> {
 
     @Override
     public File getFile() {
-        return new File("./Disquera.object");
+        return new File("/Disquera.list");
     }
 }

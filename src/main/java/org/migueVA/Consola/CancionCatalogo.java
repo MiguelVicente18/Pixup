@@ -28,17 +28,19 @@ public class CancionCatalogo extends Catalogos<Cancion> {
 
     @Override
     public boolean processNewT(Cancion cancion) {
-        System.out.println("Escriba el nombre de la cancion: ");
+        System.out.print(" *** Escriba el nombre de la cancion: ");
         cancion.setTitulo(ReadUtil.read());
-        System.out.println("Escriba la duracion de la cancion: ");
+        System.out.print(" *** Escriba la duracion de la cancion: ");
         cancion.setDuracion(ReadUtil.readFloat());
-        System.out.println("Escriba el ID del disco al que pertenece la cancion: ");
+        System.out.print(" *** Escriba el ID del disco al que pertenece la cancion: ");
+        DiscoCatalogo.getInstance().print();
         int idDisco = ReadUtil.readInt();
+        cancion.setIdDisco(idDisco);
 
         Disco disco = DiscoCatalogo.getInstance().getDiscoById(idDisco);
 
         if (disco == null) {
-            System.out.println("El disco con el ID " + idDisco + " no existe.");
+            System.out.println(" *** El disco con el ID " + idDisco + " no existe.");
             return false;
         }
 
@@ -49,12 +51,14 @@ public class CancionCatalogo extends Catalogos<Cancion> {
 
     @Override
     public void processEditT(Cancion cancion) {
-        System.out.println("Id de la cancion " + cancion.getId());
-        System.out.println("Cancion a editar: " + cancion.getTitulo());
-        System.out.println("Teclee el nuevo nombre de la cancion");
+        System.out.println(" *** Id de la cancion " + cancion.getId());
+        System.out.println(" *** Cancion a editar: " + cancion.getTitulo());
+        System.out.print(" *** Teclee el nuevo nombre de la cancion");
         cancion.setTitulo(ReadUtil.read());
-        System.out.println("Escriba el nuevo ID del disco al que pertenece la cancion: ");
+        System.out.print(" *** Escriba el nuevo ID del disco al que pertenece la cancion: ");
+        DiscoCatalogo.getInstance().print();
         int idDisco = ReadUtil.readInt();
+        cancion.setIdDisco(idDisco);
         Disco disco = DiscoCatalogo.getInstance().getDiscoById(idDisco);
 
         if (disco == null) {

@@ -24,16 +24,17 @@ public class ListaCatalogos extends LecturaAccion {
     @Override
     public void despliegaMenu()
     {
-        System.out.println( ":: Seleccione una opcion ::" );
-        System.out.println( "1.- Estado");
-        System.out.println( "2.- Municipio");
-        System.out.println( "3.- Colonia");
-        System.out.println( "4.- Artista");
-        System.out.println( "5.- Cancion");
-        System.out.println( "6.- Disco");
-        System.out.println( "7.- Disquera");
-        System.out.println( "8.- Genero Musicañ");
-        System.out.println( "9.- Salir");
+        System.out.println(" ************************************** ");
+        System.out.println( "***  Seleccione una opcion *** " );
+        System.out.println( "1.- ESTADO");
+        System.out.println( "2.- MUNICIPIO");
+        System.out.println( "3.- COLONIA");
+        System.out.println( "4.- ARTISTA");
+        System.out.println( "5.- CANCION");
+        System.out.println( "6.- DISCO");
+        System.out.println( "7.- DISQUERA");
+        System.out.println( "8.- GENERO MUSICAL");
+        System.out.println( "9.- SALIR");
         System.out.print( " *** La Eleccion que desea es :  " );
     }
     @Override
