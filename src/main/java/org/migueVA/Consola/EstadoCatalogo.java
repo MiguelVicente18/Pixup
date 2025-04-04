@@ -7,7 +7,7 @@ import java.io.File;
 
 public class EstadoCatalogo extends Catalogos<Estado> {
 
-    public static EstadoCatalogo estadoCatalogo;
+    private static EstadoCatalogo estadoCatalogo;
     private EstadoCatalogo(){
         super();
     }

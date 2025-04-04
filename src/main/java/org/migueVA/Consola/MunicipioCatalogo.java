@@ -7,7 +7,7 @@ import java.io.File;
 
 public class MunicipioCatalogo extends Catalogos<Municipio> {
 
-    public static MunicipioCatalogo municipioCatalogo;
+    private static MunicipioCatalogo municipioCatalogo;
 
     private MunicipioCatalogo(){
         super();

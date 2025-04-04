@@ -7,7 +7,7 @@ import java.io.File;
 
 public class ColoniaCatalogo extends Catalogos<Colonia> {
 
-    public static ColoniaCatalogo coloniaCatalogo;
+    private static ColoniaCatalogo coloniaCatalogo;
 
     private ColoniaCatalogo(){
         super();
