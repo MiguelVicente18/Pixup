@@ -1,18 +1,20 @@
 package org.migueVA.Model;
 
-public class Cancion extends Catalogo {
+import java.io.Serializable;
+
+public class Cancion extends Catalogo implements Serializable {
 
     private String titulo;
     private float duracion;
-    private int idDisco;
+    private Disco disco;
 
     public Cancion() {
     }
 
-    public Cancion(String titulo, float duracion, int idDisco) {
+    public Cancion(String titulo, float duracion, Disco disco) {
         this.titulo = titulo;
         this.duracion = duracion;
-        this.idDisco = idDisco;
+        this.disco = disco;
     }
 
     public String getTitulo() {
@@ -31,12 +33,12 @@ public class Cancion extends Catalogo {
         this.duracion = duracion;
     }
 
-    public int getIdDisco() {
-        return idDisco;
+    public Disco getDisco() {
+        return disco;
     }
 
-    public void setIdDisco(int idDisco) {
-        this.idDisco = idDisco;
+    public void setDisco(Disco disco) {
+        this.disco = disco;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class Cancion extends Catalogo {
         return "Cancion{" +
                 "titulo='" + titulo + '\'' +
                 ", duracion=" + duracion +
-                ", idDisco=" + idDisco +
+                ", disco=" + disco.getTituloDisco() +
                 ", id=" + id +
                 '}';
     }

@@ -1,116 +1,106 @@
 package org.migueVA.Model;
 
-public class Disco extends Catalogo{
-    private String titulo;
-    private float precio;
-    private int existencia;
-    private float descuento;
+public class Disco extends Catalogo
+{
+    private String tituloDisco;
+    private double precio;
+    private int existencias;
+    private double descuento;
     private String fechaLanzamiento;
     private String imagen;
-    private int idDisquera;
-    private int idArtista;
-    private int idGeneroMusical;
+    private Disquera disquera;
+    private Artista artista;
+    private GeneroMusical generoMusical;
 
-    public Disco() {
+    public Disco()
+    {
     }
 
-    public Disco(String titulo, float precio, int existencia, float descuento, String fechaLanzamiento, String imagen, int idDisquera, int idArtista, int idGeneroMusical) {
-        this.titulo = titulo;
+    public Disco(String tituloDisco,
+                 double precio,
+                 int existencias,
+                 double descuento,
+                 String fechaLanzamiento,
+                 String imagen,
+                 Disquera disquera,
+                 Artista artista,
+                 GeneroMusical generoMusical)
+    {
+        this.tituloDisco = tituloDisco;
         this.precio = precio;
-        this.existencia = existencia;
+        this.existencias = existencias;
         this.descuento = descuento;
         this.fechaLanzamiento = fechaLanzamiento;
         this.imagen = imagen;
-        this.idDisquera = idDisquera;
-        this.idArtista = idArtista;
-        this.idGeneroMusical = idGeneroMusical;
+        this.disquera = disquera;
+        this.artista = artista;
+        this.generoMusical = generoMusical;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTituloDisco()
+    {
+        return tituloDisco;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTituloDisco(String tituloDisco)
+    {
+        this.tituloDisco = tituloDisco;
     }
 
-    public float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(float precio) {
+    public void setPrecio(double precio)
+    {
         this.precio = precio;
     }
 
-    public int getExistencia() {
-        return existencia;
+    public void setExistencias(int existencias)
+    {
+        this.existencias = existencias;
     }
 
-    public void setExistencia(int existencia) {
-        this.existencia = existencia;
-    }
-
-    public float getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(float descuento) {
+    public void setDescuento(double descuento)
+    {
         this.descuento = descuento;
     }
 
-    public String getFechaLanzamiento() {
-        return fechaLanzamiento;
-    }
-
-    public void setFechaLanzamiento(String fechaLanzamiento) {
+    public void setFechaLanzamiento(String fechaLanzamiento)
+    {
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
+    public void setImagen(String imagen)
+    {
         this.imagen = imagen;
     }
 
-    public int getIdDisquera() {
-        return idDisquera;
+    public void setDisquera(Disquera disquera)
+    {
+        this.disquera = disquera;
     }
 
-    public void setIdDisquera(int idDisquera) {
-        this.idDisquera = idDisquera;
+    public void setArtista(Artista artista)
+    {
+        this.artista = artista;
     }
 
-    public int getIdArtista() {
-        return idArtista;
-    }
-
-    public void setIdArtista(int idArtista) {
-        this.idArtista = idArtista;
-    }
-
-    public int getIdGeneroMusical() {
-        return idGeneroMusical;
-    }
-
-    public void setIdGeneroMusical(int idGeneroMusical) {
-        this.idGeneroMusical = idGeneroMusical;
+    public void setGeneroMusical(GeneroMusical generoMusical)
+    {
+        this.generoMusical = generoMusical;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Disco{" +
-                "id=" + id +
-                ", idGeneroMusical=" + idGeneroMusical +
-                ", idArtista=" + idArtista +
-                ", idDisquera=" + idDisquera +
-                ", imagen='" + imagen + '\'' +
-                ", fechaLanzamiento='" + fechaLanzamiento + '\'' +
-                ", descuento=" + descuento +
-                ", existencia=" + existencia +
+                "id =" + id +
+                ", tituloDisco='" + tituloDisco + '\'' +
                 ", precio=" + precio +
-                ", titulo='" + titulo + '\'' +
+                ", existencias=" + existencias +
+                ", descuento=" + descuento +
+                ", fechaLanzamiento='" + fechaLanzamiento + '\'' +
+                ", imagen='" + imagen + '\'' +
+                ", disquera=" + disquera.getDisquera() +
+                ", artista=" + artista.getArtista() +
+                ", generoMusical=" + generoMusical.getGeneroMusical() +
                 '}';
     }
 }

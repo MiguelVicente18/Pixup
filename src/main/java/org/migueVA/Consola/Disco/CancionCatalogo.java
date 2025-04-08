@@ -1,15 +1,19 @@
-package org.migueVA.Consola;
+package org.migueVA.Consola.Disco;
 
+import org.migueVA.Consola.Catalogos.GestorCatalogos;
+import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
+import org.migueVA.Jdbc.Implementacion.CancionJdbcImplementacion;
 import org.migueVA.Model.Cancion;
 import org.migueVA.Model.Disco;
 import org.migueVA.Util.ReadUtil;
 
 import java.io.File;
 
-public class CancionCatalogo extends Catalogos<Cancion> {
+public class CancionCatalogo extends GestorCatalogos<Cancion> {
     private static CancionCatalogo cancionCatalogo;
 
     private CancionCatalogo() {
+        super();
     }
 
     public static CancionCatalogo getInstance()
@@ -30,21 +34,14 @@ public class CancionCatalogo extends Catalogos<Cancion> {
     public boolean processNewT(Cancion cancion) {
         System.out.print(" *** Escriba el nombre de la cancion: ");
         cancion.setTitulo(ReadUtil.read());
+
         System.out.print(" *** Escriba la duracion de la cancion: ");
         cancion.setDuracion(ReadUtil.readFloat());
-        System.out.print(" *** Escriba el ID del disco al que pertenece la cancion: ");
-        DiscoCatalogo.getInstance().print();
-        int idDisco = ReadUtil.readInt();
-        cancion.setIdDisco(idDisco);
 
-        Disco disco = DiscoCatalogo.getInstance().getDiscoById(idDisco);
+        Disco disco = DiscoCatalogo.getInstance().getDiscoById();
+        if(disco==null) { return false; }
+        else { cancion.setDisco( disco ); }
 
-        if (disco == null) {
-            System.out.println(" *** El disco con el ID " + idDisco + " no existe.");
-            return false;
-        }
-
-        cancion.setIdDisco(disco.getId());
         return true;
 
     }
@@ -55,21 +52,28 @@ public class CancionCatalogo extends Catalogos<Cancion> {
         System.out.println(" *** Cancion a editar: " + cancion.getTitulo());
         System.out.print(" *** Teclee el nuevo nombre de la cancion");
         cancion.setTitulo(ReadUtil.read());
-        System.out.print(" *** Escriba el nuevo ID del disco al que pertenece la cancion: ");
-        DiscoCatalogo.getInstance().print();
-        int idDisco = ReadUtil.readInt();
-        cancion.setIdDisco(idDisco);
-        Disco disco = DiscoCatalogo.getInstance().getDiscoById(idDisco);
+        System.out.print("> Ingrese la nueva duración de la canción en minutos: ");
+        cancion.setDuracion( ReadUtil.readFloat() );
 
-        if (disco == null) {
-            System.out.println("El disco con el ID " + idDisco + " no existe.");
-            return;
+        Disco disco = DiscoCatalogo.getInstance().getDiscoById();
+        if(disco==null)
+        {
+            System.out.println(" *** Disco no encontrado. No se pudo actualizar; compruébelo e inténtelo de nuevo.*** ");
         }
-        cancion.setIdDisco(disco.getId());
+        else
+        {
+            cancion.setDisco( disco );
+        }
     }
 
     @Override
     public File getFile() {
-        return new File( "./Cancion.list");
+        return new File( "./src/main/fileStorage/Canciones.object");
+    }
+
+    @Override
+    public void print() {
+        GenericoJdbc<Cancion> cancionJdbc = new CancionJdbcImplementacion();
+        cancionJdbc.findAll().stream().forEach(System.out::println);
     }
 }

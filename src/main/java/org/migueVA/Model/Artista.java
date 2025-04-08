@@ -2,11 +2,12 @@ package org.migueVA.Model;
 
 import org.migueVA.Ventana.LecturaAccion;
 
-public class Artista extends Catalogo
+import java.io.Serializable;
+
+public class Artista extends Catalogo implements Serializable
 {
     private String artista;
     public Artista() {
-
     }
 
     public Artista(String artista) {

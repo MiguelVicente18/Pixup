@@ -7,6 +7,10 @@ public class GeneroMusical extends Catalogo
     public GeneroMusical() {
     }
 
+    public GeneroMusical(String generoMusical) {
+        this.generoMusical = generoMusical;
+    }
+
     public String getGeneroMusical() {
         return generoMusical;
     }

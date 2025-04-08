@@ -9,6 +9,10 @@ public class Catalogo implements Serializable {
     public Catalogo() {
     }
 
+    public Catalogo(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

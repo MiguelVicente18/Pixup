@@ -35,6 +35,9 @@ public abstract class LecturaAccion implements Ejecutable {
                     procesaOpcion( );
                 }
             }
+            else {
+                Menu.opcionInvalida();
+            }
         }
     }
 

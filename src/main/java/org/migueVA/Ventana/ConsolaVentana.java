@@ -1,6 +1,6 @@
 package org.migueVA.Ventana;
 
-import org.migueVA.Consola.Consola;
+import org.migueVA.Consola.Catalogos.Consola;
 import org.migueVA.Util.Ejecutable;
 
 public class ConsolaVentana extends LecturaAccion
@@ -24,11 +24,12 @@ public class ConsolaVentana extends LecturaAccion
     @Override
     public void despliegaMenu()
     {
-        System.out.println(" *** Seleccione una opcion : *** ");
-        System.out.println("1.- Consola");
-        System.out.println("2.- Ventana");
-        System.out.println("3.- Salir");
-        System.out.print(" Su opcion  = ");
+        System.out.println("\n *** ¡Bienvenido a PixUp! *** ");
+        System.out.println("\t> Selecciona tu método de acceso:");
+        System.out.println("1. Consola");
+        System.out.println("2. Ventana");
+        System.out.println("3. Salir");
+        Menu.seleccionaOpcion();
     }
 
     @Override
