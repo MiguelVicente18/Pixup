@@ -1,45 +1,43 @@
 package org.migueVA.Jdbc.Implementacion;
 
-import org.migueVA.Consola.Catalogos.GestorCatalogos;
+import org.migueVA.Consola.Usuario.ColoniaCatalogo;
 import org.migueVA.Jdbc.Conexiones.Conexion;
 import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
-import org.migueVA.Model.Catalogo;
 import org.migueVA.Model.Colonia;
 import org.migueVA.Model.Estado;
 import org.migueVA.Model.Municipio;
-import org.migueVA.Util.ReadUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdbc<Municipio> {
+public class ColoniaJdbcImplementacion extends Conexion implements GenericoJdbc<Colonia> {
+    private static ColoniaJdbcImplementacion coloniaJdbc;
 
-    private static MunicipioJdbcImplementacion municipioJdbc;
-
-    private MunicipioJdbcImplementacion()
+    private ColoniaJdbcImplementacion()
     {
         super();
     }
 
-    public static MunicipioJdbcImplementacion getInstance()
+    public static ColoniaJdbcImplementacion getInstance()
     {
-        if(municipioJdbc==null)
+        if(coloniaJdbc==null)
         {
-            municipioJdbc = new MunicipioJdbcImplementacion();
+            coloniaJdbc = new ColoniaJdbcImplementacion();
         }
-        return municipioJdbc;
+        return coloniaJdbc;
     }
 
     @Override
-    public List<Municipio> findAll()
+    public List<Colonia> findAll()
     {
         Statement statement = null;
         ResultSet resultSet = null;
-        List<Municipio> list = null;
-        Municipio municipio = null;
-        String sql ="SELECT tbl_municipio.*, tbl_estado.NOMBRE AS ESTADO " +
-                "FROM tbl_municipio " +
+        List<Colonia> list = null;
+        Colonia colonia = null;
+        String sql ="SELECT tbl_colonia.*, tbl_municipio.NOMBRE AS MUNICIPIO, tbl_estado.NOMBRE AS ESTADO " +
+                "FROM tbl_colonia " +
+                "INNER JOIN tbl_municipio ON tbl_municipio.id = tbl_colonia.tbl_municipio_id " +
                 "INNER JOIN tbl_estado ON tbl_estado.id = tbl_municipio.tbl_estado_id;";
 
         try
@@ -61,17 +59,19 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
 
             while( resultSet.next( ) )
             {
-                municipio = new Municipio();
-                municipio.setId( resultSet.getInt( "ID" ) );
-                municipio.setNombre( resultSet.getString( "NOMBRE" ) );
+                colonia = new Colonia();
+                colonia.setId( resultSet.getInt( "ID" ) );
+                colonia.setNombre( resultSet.getString( "NOMBRE" ) );
+                colonia.setCp( resultSet.getString( "CP" ) );
 
-                Estado estado = new Estado();
-                estado.setId( resultSet.getInt( "TBL_ESTADO_ID" ));
-                estado.setNombre( resultSet.getString("ESTADO") );
+                Municipio municipio = new Municipio();
+                municipio.setId( resultSet.getInt("TBL_MUNICIPIO_ID") );
+                municipio.setNombre( resultSet.getString("MUNICIPIO") );
+                municipio.setEstado( new Estado(resultSet.getString("ESTADO")) );
 
-                municipio.setEstado( estado );
+                colonia.setMunicipio( municipio );
 
-                list.add( municipio );
+                list.add( colonia );
             }
 
             resultSet.close( );
@@ -86,10 +86,10 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
     }
 
     @Override
-    public boolean save(Municipio municipio)
+    public boolean save(Colonia colonia)
     {
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO tbl_municipio (NOMBRE, TBL_ESTADO_ID) VALUES (?,?)";
+        String query = "INSERT INTO tbl_colonia (NOMBRE, CP, TBL_MUNICIPIO_ID) VALUES (?,?,?)";
         int res = 0;
 
         try
@@ -100,8 +100,9 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
                 return false;
             }
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, municipio.getNombre());
-            preparedStatement.setInt(2, municipio.getEstado().getId());
+            preparedStatement.setString(1, colonia.getNombre());
+            preparedStatement.setString(2, colonia.getCp());
+            preparedStatement.setInt(3, colonia.getMunicipio().getId());
 
             res = preparedStatement.executeUpdate();
 
@@ -118,10 +119,10 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
     }
 
     @Override
-    public boolean update(Municipio municipio)
+    public boolean update(Colonia colonia)
     {
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE tbl_municipio SET NOMBRE = ? WHERE ID = ?";
+        String query = "UPDATE tbl_colonia SET NOMBRE = ?, CP = ? WHERE ID = ?";
         int res = 0;
 
         try
@@ -133,8 +134,9 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
             }
             preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1, municipio.getNombre());
-            preparedStatement.setInt(2, municipio.getId());
+            preparedStatement.setString(1, colonia.getNombre());
+            preparedStatement.setString( 2,colonia.getCp() );
+            preparedStatement.setInt(3, colonia.getId());
 
             res = preparedStatement.executeUpdate();
 
@@ -152,46 +154,21 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
     }
 
     @Override
-    public boolean delete(Municipio municipio)
+    public boolean delete(Colonia colonia)
     {
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM tbl_municipio WHERE ID = ?";
+        String query = "DELETE FROM tbl_colonia WHERE ID = ?";
         int res = 0;
-        List<Colonia> list =ColoniaJdbcImplementacion.getInstance().findByMunicipioId(municipio.getId());
-
-        if(!list.isEmpty())
-        {
-            System.out.println("\n ***  No se puede eliminar el municipio porque tiene las siguientes colonias asociadas: ");
-            for(Colonia colonia: list)
-            {
-                System.out.println("- [ *** ID: "+colonia.getId()+"], [ *** NOMBRE: "+colonia.getNombre()+"]");
-            }
-
-            System.out.print("> Desea eliminar también estas colonias? (Si/No): ");
-            String respuesta = ReadUtil.read();
-
-            if(!respuesta.equalsIgnoreCase("Si"))
-            {
-                System.out.println(" ***  Eliminación cancelada *** .");
-                return false;
-            }
-
-            for(Colonia colonia: list)
-            {
-                ColoniaJdbcImplementacion.getInstance().delete(colonia);
-                System.out.println(" ***  Colonias eliminadas *** .");
-            }
-        }
 
         try
         {
             if( !openConnection() )
             {
-                System.out.println(" *** Error de conexión. *** ");
+                System.out.println("> Error de conexión.");
                 return false;
             }
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, municipio.getId());
+            preparedStatement.setInt(1, colonia.getId());
 
             res = preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -208,10 +185,13 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
     }
 
     @Override
-    public Municipio findById(Integer id)
+    public Colonia findById(Integer id)
     {
-        Municipio municipio = null;
-        String query = "SELECT * FROM tbl_municipio WHERE ID = ?";
+        Colonia colonia = null;
+        String query = "SELECT tbl_colonia.*, tbl_municipio.NOMBRE as MUNICIPIO, tbl_estado.NOMBRE as ESTADO FROM tbl_colonia " +
+                "INNER JOIN tbl_municipio ON tbl_municipio.id = tbl_colonia.tbl_municipio_id " +
+                "INNER JOIN tbl_estado ON tbl_estado.id = tbl_municipio.tbl_estado_id " +
+                "WHERE tbl_colonia.ID = ?;";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -228,9 +208,17 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
 
             if(resultSet.next())
             {
-                municipio = new Municipio();
-                municipio.setId(resultSet.getInt( "ID" ));
-                municipio.setNombre(resultSet.getString( "NOMBRE" ));
+                colonia = new Colonia();
+                colonia.setId(resultSet.getInt( "ID" ));
+                colonia.setNombre(resultSet.getString( "NOMBRE" ));
+                colonia.setCp(resultSet.getString("CP") );
+
+                Municipio municipio = new Municipio();
+                municipio.setId( resultSet.getInt("TBL_MUNICIPIO_ID") );
+                municipio.setNombre( resultSet.getString("MUNICIPIO") );
+                municipio.setEstado( new Estado(resultSet.getString("ESTADO")) );
+
+                colonia.setMunicipio( municipio );
             }
 
             preparedStatement.close();
@@ -241,15 +229,15 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
             e.printStackTrace();
             return null;
         }
-        return municipio;
+        return colonia;
     }
 
-    public List<Municipio> findByEstadoId(int estadoId)
+    public List<Colonia> findByMunicipioId(int municipioId)
     {
-        String query = "SELECT ID, NOMBRE FROM tbl_municipio WHERE TBL_ESTADO_ID = ?";
+        String query = "SELECT ID, NOMBRE FROM tbl_colonia WHERE TBL_MUNICIPIO_ID = ?";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<Municipio> list = new ArrayList<>();
+        List<Colonia> list = new ArrayList<>();
         try
         {
             if( !openConnection() )
@@ -257,14 +245,14 @@ public class MunicipioJdbcImplementacion extends Conexion implements GenericoJdb
                 return null;
             }
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, estadoId);
+            preparedStatement.setInt(1, municipioId);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Municipio municipio = new Municipio();
-                municipio.setId(resultSet.getInt("ID"));
-                municipio.setNombre(resultSet.getString("NOMBRE"));
-                list.add(municipio);
+                Colonia colonia = new Colonia();
+                colonia.setId(resultSet.getInt("ID"));
+                colonia.setNombre(resultSet.getString("NOMBRE"));
+                list.add(colonia);
             }
 
             preparedStatement.close();

@@ -16,16 +16,7 @@ public class Disco extends Catalogo
     {
     }
 
-    public Disco(String tituloDisco,
-                 double precio,
-                 int existencias,
-                 double descuento,
-                 String fechaLanzamiento,
-                 String imagen,
-                 Disquera disquera,
-                 Artista artista,
-                 GeneroMusical generoMusical)
-    {
+    public Disco(String tituloDisco, double precio, int existencias, double descuento, String fechaLanzamiento, String imagen, Disquera disquera, Artista artista, GeneroMusical generoMusical) {
         this.tituloDisco = tituloDisco;
         this.precio = precio;
         this.existencias = existencias;
@@ -37,62 +28,82 @@ public class Disco extends Catalogo
         this.generoMusical = generoMusical;
     }
 
-    public String getTituloDisco()
-    {
+    public String getTituloDisco() {
         return tituloDisco;
     }
 
-    public void setTituloDisco(String tituloDisco)
-    {
+    public void setTituloDisco(String tituloDisco) {
         this.tituloDisco = tituloDisco;
     }
 
-    public void setPrecio(double precio)
-    {
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public void setExistencias(int existencias)
-    {
+    public int getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(int existencias) {
         this.existencias = existencias;
     }
 
-    public void setDescuento(double descuento)
-    {
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
 
-    public void setFechaLanzamiento(String fechaLanzamiento)
-    {
+    public String getFechaLanzamiento() {
+        return fechaLanzamiento;
+    }
+
+    public void setFechaLanzamiento(String fechaLanzamiento) {
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
-    public void setImagen(String imagen)
-    {
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 
-    public void setDisquera(Disquera disquera)
-    {
+    public Disquera getDisquera() {
+        return disquera;
+    }
+
+    public void setDisquera(Disquera disquera) {
         this.disquera = disquera;
     }
 
-    public void setArtista(Artista artista)
-    {
+    public Artista getArtista() {
+        return artista;
+    }
+
+    public void setArtista(Artista artista) {
         this.artista = artista;
     }
 
-    public void setGeneroMusical(GeneroMusical generoMusical)
-    {
+    public GeneroMusical getGeneroMusical() {
+        return generoMusical;
+    }
+
+    public void setGeneroMusical(GeneroMusical generoMusical) {
         this.generoMusical = generoMusical;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Disco{" +
-                "id =" + id +
-                ", tituloDisco='" + tituloDisco + '\'' +
+                "tituloDisco='" + tituloDisco + '\'' +
                 ", precio=" + precio +
                 ", existencias=" + existencias +
                 ", descuento=" + descuento +
@@ -101,6 +112,7 @@ public class Disco extends Catalogo
                 ", disquera=" + disquera.getDisquera() +
                 ", artista=" + artista.getArtista() +
                 ", generoMusical=" + generoMusical.getGeneroMusical() +
+                ", id=" + id +
                 '}';
     }
 }

@@ -9,7 +9,7 @@ public class Menu {
 
     public static void seleccionaOpcion( )
     {
-        System.out.print("> Dame una opción: ");
+        System.out.print("*** Dame una opción: ");
     }
 
     public static void errorDato( )

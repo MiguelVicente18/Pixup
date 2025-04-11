@@ -89,4 +89,16 @@ public class ReadUtil
         }
         return null;
     }
+
+    public static Double string2Double( String valor )
+    {
+        try
+        {
+            return Double.valueOf(valor);
+        }
+        catch (Exception e)
+        {
+        }
+        return null;
+    }
 }

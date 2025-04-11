@@ -8,7 +8,7 @@ public class Ventana implements Ejecutable {
     public static Ventana ventana;
     private boolean flag;
 
-    public Ventana() {
+    private Ventana() {
     }
 
     public static Ventana getInstance(){

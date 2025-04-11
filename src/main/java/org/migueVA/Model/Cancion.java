@@ -1,17 +1,15 @@
 package org.migueVA.Model;
 
-import java.io.Serializable;
-
-public class Cancion extends Catalogo implements Serializable {
+public class Cancion extends Catalogo  {
 
     private String titulo;
-    private float duracion;
+    private double duracion;
     private Disco disco;
 
     public Cancion() {
     }
 
-    public Cancion(String titulo, float duracion, Disco disco) {
+    public Cancion(String titulo, double duracion, Disco disco) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.disco = disco;
@@ -25,11 +23,11 @@ public class Cancion extends Catalogo implements Serializable {
         this.titulo = titulo;
     }
 
-    public float getDuracion() {
+    public double getDuracion() {
         return duracion;
     }
 
-    public void setDuracion(float duracion) {
+    public void setDuracion(double duracion) {
         this.duracion = duracion;
     }
 

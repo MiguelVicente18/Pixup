@@ -10,11 +10,13 @@ import java.io.File;
 
 public class DisqueraCatalogo extends GestorCatalogos<Disquera>
 {
+
     private static DisqueraCatalogo disqueraCatalogo;
+    private static final GenericoJdbc<Disquera> disqueraJdbc = DisqueraJdbcImplementacion.getInstance();
 
     private DisqueraCatalogo()
     {
-        super();
+        super(DisqueraJdbcImplementacion.getInstance());
     }
 
     public static DisqueraCatalogo getInstance()
@@ -32,48 +34,23 @@ public class DisqueraCatalogo extends GestorCatalogos<Disquera>
     }
 
     @Override
-    public boolean processNewT(Disquera disquera) {
-        System.out.print("*** Ingrese el nombre de la disquera: ");
+    public boolean processNewT(Disquera disquera)
+    {
+        System.out.print(" ***  Ingrese el nombre de la disquera: ");
         disquera.setDisquera( ReadUtil.read() );
+        disqueraJdbc.save(disquera);
         return true;
     }
 
     @Override
-    public void processEditT(Disquera disquera) {
-        System.out.println("\n*** ID de la disquera siendo editada: "+disquera.getId());
-        System.out.println("*** Nombre de la disquera siendo editada: "+disquera.getDisquera());
-        System.out.print("*** Ingrese el nuevo nombre de la disquera: ");
-        disquera.setDisquera( ReadUtil.read() );
-    }
-
-    @Override
-    public File getFile() {
-        return new File( "./src/main/fileStorage/Disqueras.list" );
-    }
-
-    @Override
-    public void print()
+    public void edit(Disquera disquera)
     {
-        GenericoJdbc<Disquera> disqueraJdbc = new DisqueraJdbcImplementacion();
-        disqueraJdbc.findAll().stream().forEach(System.out::println);
+        System.out.print(" *** Ingrese el ID de la disquera a editar: ");
+        disquera.setId( ReadUtil.readInt() );
+        System.out.print(" *** Ingrese el nuevo nombre de la disquera: ");
+        disquera.setDisquera( ReadUtil.read() );
+
+        disqueraJdbc.update(disquera);
     }
 
-    public Disquera getDisqueraById() {
-        if (isListEmpty()) {
-            System.out.println(" *** No hay disqueras registradas.");
-            return null;
-        }
-        while (true) {
-            System.out.print(" *** Ingrese el ID de la disquera: ");
-            int id = ReadUtil.readInt();
-            Disquera disquera = list.stream()
-                    .filter(e -> e.getId().equals(id))
-                    .findFirst()
-                    .orElse(null);
-            if (disquera != null) {
-                return disquera;
-            }
-            System.out.println(" ***  ID incorrecto, inténtelo nuevamente.");
-        }
-    }
 }

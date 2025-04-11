@@ -1,6 +1,7 @@
 package org.migueVA.Consola.Catalogos;
 
 import org.migueVA.Jdbc.Conexiones.Conexion;
+import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
 import org.migueVA.Model.Catalogo;
 import org.migueVA.Util.ReadUtil;
 import org.migueVA.Ventana.LecturaAccion;
@@ -16,124 +17,74 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
     protected List<T> list;
     protected T t;
     protected boolean flag2;
-    protected File file;
-    private Connection connection;
+    protected GenericoJdbc<T> genericoJdbc;
 
-    public GestorCatalogos() {
+    public GestorCatalogos(GenericoJdbc<T> genericoJdbc) {
+        this.genericoJdbc = genericoJdbc;
         Conexion conexion = new Conexion() {
         };
-        this.connection = conexion.getConnection();
-        list = new ArrayList<>();
+        Connection connection = conexion.getConnection();
+        //list = new ArrayList<>();
     }
 
+    /*
     public boolean isListEmpty() {
         return list.isEmpty();
-    }
+    }*/
 
 
     public abstract T newT();
-
     public abstract boolean processNewT(T t);
+    public abstract void edit(T t);
 
-    public abstract void processEditT(T t);
-
-    public abstract File getFile();
-
-    public abstract void print();
+    public void print(){
+        List<T> list  = genericoJdbc.findAll();
+        if (list.isEmpty()){
+            System.out.println(" *** No hay Elementos Registrados *** ");
+        }
+        list.stream().forEach(System.out::println);
+    }
 
 
     public void add() {
         t = newT();
         if (processNewT(t)) {
-            t.setId(list.size() + 1);
-            list.add(t);
             System.out.println(" *** Elemento Añadido *** ");
         }
     }
 
-    public void edit() {
-        if (isListEmpty()) {
-            System.out.println("*** No hay elementos. ***");
+    public void remove() {
+        List<T> list = genericoJdbc.findAll();
+        if (list.isEmpty()) {
+            System.out.println("*** No hay elementos para Eliminar ***");
             return;
         }
         flag2 = true;
         while (flag2) {
-            System.out.println("***  Ingrese el ID del elemento a editar: ");
-            print();
+            System.out.println("***  Ingrese el ID del elemento a Eliminar: ");
             t = list.stream().filter(e -> e.getId().equals(ReadUtil.readInt())).findFirst().orElse(null);
             if (t == null) {
                 System.out.println("*** ID incorrecto, intentelo nuevamente ***");
             } else {
-                processEditT(t);
+                if (genericoJdbc.delete(t)){
+                    System.out.println(" *** Elemento Eliminado *** ");
+                }
                 flag2 = false;
-                System.out.println(" *** Elemento modificado ***");
             }
         }
     }
 
-    public void remove() {
-        if (isListEmpty()) {
-            System.out.println("***No hay elementos***");
-            return;
+    public void findById() {
+        System.out.print(" ***  Ingresa un ID para buscar: ");
+        t = genericoJdbc.findById( ReadUtil.readInt() );
+
+        if(t!=null)
+        {
+            System.out.println(t);
         }
-        flag2 = true;
-        while (flag2) {
-            System.out.print("Ingrese el ID del elemento a borrar: ");
-            print();
-            t = list.stream().filter(e -> e.getId().equals(ReadUtil.readInt())).findFirst().orElse(null);
-            if (t == null) {
-                System.out.println("***ID incorrecto, inténtelo nuevamente.***");
-            } else {
-                list.remove(t);
-                flag2 = false;
-                System.out.println("***Elemento eliminado***");
-            }
-        }
-    }
-
-    private void guardarArchivo() {
-        ObjectOutputStream oos = null;
-        FileOutputStream fos = null;
-
-        try {
-            if (isListEmpty()) {
-                System.out.println("> No hay elementos para guardar.");
-                return;
-            }
-            file = getFile();
-            fos = new FileOutputStream(file);
-            oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(list);
-
-            oos.close();
-            fos.close();
-
-            System.out.println("> Datos guardados con éxito.");
-        } catch (IOException e) {
-            System.err.println("> Error al guardar: " + e.getMessage());
-        }
-    }
-
-    private void leerArchivo() {
-        ObjectInputStream ois = null;
-        FileInputStream fis = null;
-        try {
-            file = getFile();
-
-            fis = new FileInputStream(file);
-            ois = new ObjectInputStream(fis);
-
-            list = (List<T>) ois.readObject();
-
-            ois.close();
-            fis.close();
-
-            System.out.println("> Datos cargados con éxito.");
-        } catch (IOException e) {
-            System.err.println("> Error al cargar: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        else
+        {
+            System.out.println(" *** No existe un elemento con dicho ID.");
         }
     }
 
@@ -144,9 +95,8 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
         System.out.println("2.- Eliminar");
         System.out.println("3.- Editar");
         System.out.println("4.- Imprimir elementos en lista");
-        System.out.println("5.- Guardar en archivo");
-        System.out.println("6.- Leer en archivo");
-        System.out.println("7.- Salir");
+        System.out.println("5.- Obtener por su Id");
+        System.out.println("6.- Salir");
         Menu.seleccionaOpcion();
     }
 
@@ -159,7 +109,7 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
     @Override
     public int valorMaxMenu()
     {
-        return 7;
+        return 6;
     }
 
     @Override
@@ -172,17 +122,13 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
                 remove();
                 break;
             case 3:
-                edit();
+                edit(t);
                 break;
             case 4:
                 print();
                 break;
             case 5:
-                guardarArchivo();
-                break;
-            case 6:
-                leerArchivo();
-                break;
+                findById();
             default:
                 Menu.opcionInvalida();
         }

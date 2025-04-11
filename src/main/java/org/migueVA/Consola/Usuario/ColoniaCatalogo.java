@@ -3,29 +3,32 @@ package org.migueVA.Consola.Usuario;
 import org.migueVA.Consola.Catalogos.GestorCatalogos;
 import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
 import org.migueVA.Jdbc.Implementacion.ColoniaJdbcImplementacion;
+import org.migueVA.Jdbc.Implementacion.MunicipioJdbcImplementacion;
 import org.migueVA.Model.Colonia;
 import org.migueVA.Model.Municipio;
 import org.migueVA.Util.ReadUtil;
 
-import java.io.File;
 
-public class ColoniaCatalogo extends GestorCatalogos<Colonia> {
-
+public class ColoniaCatalogo extends GestorCatalogos<Colonia>
+{
     private static ColoniaCatalogo coloniaCatalogo;
-    private MunicipioCatalogo municipioCatalogo;
+    private static final GenericoJdbc<Colonia> coloniaJdbc = ColoniaJdbcImplementacion.getInstance();
 
-    private ColoniaCatalogo(){
-
-        super();
-        municipioCatalogo = MunicipioCatalogo.getInstance();
-    }
-
-    public static ColoniaCatalogo getInstance(){
-        if(coloniaCatalogo == null){
+    public static ColoniaCatalogo getInstance( )
+    {
+        if(coloniaCatalogo==null)
+        {
             coloniaCatalogo = new ColoniaCatalogo();
         }
         return coloniaCatalogo;
     }
+
+    private ColoniaCatalogo( )
+    {
+        super(ColoniaJdbcImplementacion.getInstance());
+    }
+
+
 
     @Override
     public Colonia newT() {
@@ -34,53 +37,31 @@ public class ColoniaCatalogo extends GestorCatalogos<Colonia> {
 
     @Override
     public boolean processNewT(Colonia colonia) {
-        System.out.print(" ***Teclee el nombre de la colonia: " );
+        System.out.print(" ***Teclee el Nombre de la colonia: " );
         colonia.setNombre( ReadUtil.read( ) );
-        System.out.println("*** Teclee el cp de la colonia: ");
+        System.out.println("*** Teclee el Codigo Postal de la colonia: ");
         colonia.setCp(ReadUtil.read());
 
-        Municipio municipio = municipioCatalogo.getMunicipioById();
+        Municipio municipio = MunicipioJdbcImplementacion.getInstance().findById(ReadUtil.readInt());
 
         if(municipio==null) {
             return false; }
         else {
             colonia.setMunicipio(municipio); }
-
+        coloniaJdbc.save(colonia);
         return true;
     }
 
     @Override
-    public void processEditT(Colonia colonia) {
-        System.out.print("*** ID de la colonia: " + colonia.getId( ) );
-        System.out.print("*** Colonia en edición: " + colonia.getNombre( ) );
-        System.out.print("*** Teclee el nuevo nombre de la colonia: " );
-        colonia.setNombre( ReadUtil.read( ) );
-        System.out.print("*** Teclee el nuevo Codigo Postal de la colonia: ");
-        colonia.setCp( ReadUtil.read( ) );
+    public void edit(Colonia colonia) {
+        System.out.print(" *** Inserte el ID de la Colonia a editar: ");
+        colonia.setId( ReadUtil.readInt() );
+        System.out.print(" ***  Ingrese el nuevo nombre de la colonia: ");
+        colonia.setNombre( ReadUtil.read() );
+        System.out.print(" *** Ingrese el nuevo código postal de la colonia: ");
+        colonia.setCp( ReadUtil.read() );
 
-        Municipio municipio = municipioCatalogo.getMunicipioById();
-
-        if(municipio==null)
-        {
-            System.out.println(" *** Estado no encontrado. No se pudo actualizar el estado del municipio, compruébelo e inténtelo de nuevo *** ");
-        }
-        else
-        {
-            colonia.setMunicipio(municipio);
-        }
-
+        coloniaJdbc.update(colonia);
     }
-
-    @Override
-    public File getFile() {
-        return new File ("./src/main/fileStorage/Colonias.list" );
-    }
-
-    @Override
-    public void print() {
-        GenericoJdbc<Colonia> coloniaJdbc = new ColoniaJdbcImplementacion();
-        coloniaJdbc.findAll().stream().forEach(System.out::println);
-    }
-
 
 }

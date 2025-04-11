@@ -11,10 +11,11 @@ import java.io.File;
 public class GeneroMusicalCatalogo extends GestorCatalogos<GeneroMusical>
 {
     private static GeneroMusicalCatalogo generoMusicalCatalogo;
+    private static final GenericoJdbc<GeneroMusical> generoMusicalJdbc = GeneroMusicalJdbcImplementacion.getInstance();
 
     private GeneroMusicalCatalogo()
     {
-        super();
+        super(GeneroMusicalJdbcImplementacion.getInstance());
     }
 
     public static GeneroMusicalCatalogo getInstance()
@@ -32,48 +33,22 @@ public class GeneroMusicalCatalogo extends GestorCatalogos<GeneroMusical>
     }
 
     @Override
-    public boolean processNewT(GeneroMusical generoMusical) {
+    public boolean processNewT(GeneroMusical generoMusical)
+    {
         System.out.print(" *** Ingrese el género musical: ");
         generoMusical.setGeneroMusical( ReadUtil.read() );
+        generoMusicalJdbc.save(generoMusical);
         return true;
     }
 
     @Override
-    public void processEditT(GeneroMusical generoMusical) {
-        System.out.println("\n *** ID del género siendo editado: "+generoMusical.getId());
-        System.out.println("*** Nombre del género siendo editado: "+generoMusical.getGeneroMusical());
-        System.out.print("*** Ingrese el nuevo nombre del género: ");
-        generoMusical.setGeneroMusical( ReadUtil.read() );
-    }
-
-    @Override
-    public File getFile() {
-        return new File("./src/main/fileStorage/Generos.list");
-    }
-
-    @Override
-    public void print()
+    public void edit(GeneroMusical generoMusical)
     {
-        GenericoJdbc<GeneroMusical> generoMusicalJdbc = new GeneroMusicalJdbcImplementacion();
-        generoMusicalJdbc.findAll().stream().forEach(System.out::println);
-    }
+        System.out.print(" *** Ingrese el ID del género musical a editar: ");
+        generoMusical.setId( ReadUtil.readInt() );
+        System.out.print(" *** Ingrese el nuevo nombre del género musical: ");
+        generoMusical.setGeneroMusical( ReadUtil.read() );
 
-    public GeneroMusical getGeneroById() {
-        if (isListEmpty()) {
-            System.out.println("*** No hay géneros registrados.");
-            return null;
-        }
-        while (true) {
-            System.out.print("*** Ingrese el ID del género: ");
-            int id = ReadUtil.readInt();
-            GeneroMusical generoMusical = list.stream()
-                    .filter(e -> e.getId().equals(id))
-                    .findFirst()
-                    .orElse(null);
-            if (generoMusical != null) {
-                return generoMusical;
-            }
-            System.out.println("*** ID incorrecto, inténtelo nuevamente.");
-        }
+        generoMusicalJdbc.update(generoMusical);
     }
 }
