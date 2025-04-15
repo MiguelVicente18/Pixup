@@ -1,51 +1,27 @@
 package org.migueVA.Model;
 
-public class Cancion extends Catalogo  {
+import lombok.*;
+import javax.persistence.*;
+import java.time.LocalTime;
 
-    private String titulo;
-    private double duracion;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString (callSuper = true)
+@Entity
+@Table(name ="TBL_CANCION")
+
+public class Cancion extends Catalogo
+{
+    @Column (name = "TITULOCANCION")
+    private String tituloCancion;
+
+    @Column (name = "DURACION")
+    private LocalTime duracion;
+
+    @ManyToOne
+    @JoinColumn(name = "TBL_DISCO_ID")
     private Disco disco;
 
-    public Cancion() {
-    }
-
-    public Cancion(String titulo, double duracion, Disco disco) {
-        this.titulo = titulo;
-        this.duracion = duracion;
-        this.disco = disco;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public double getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(double duracion) {
-        this.duracion = duracion;
-    }
-
-    public Disco getDisco() {
-        return disco;
-    }
-
-    public void setDisco(Disco disco) {
-        this.disco = disco;
-    }
-
-    @Override
-    public String toString() {
-        return "Cancion{" +
-                "titulo='" + titulo + '\'' +
-                ", duracion=" + duracion +
-                ", disco=" + disco.getTituloDisco() +
-                ", id=" + id +
-                '}';
-    }
 }

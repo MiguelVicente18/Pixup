@@ -1,118 +1,46 @@
 package org.migueVA.Model;
 
+import lombok.*;
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString (callSuper = true)
+@Entity
+@Table(name ="TBL_DISCO")
+
 public class Disco extends Catalogo
 {
+    @Column(name = "TITULODISCO", nullable = false)
     private String tituloDisco;
+
+    @Column(name = "PRECIO", nullable = false)
     private double precio;
+
+    @Column(name = "EXISTENCIA", nullable = false)
     private int existencias;
+
+    @Column(name = "DESCUENTO", nullable = false)
     private double descuento;
-    private String fechaLanzamiento;
+
+    @Column(name = "FECHA_LANZAMIENTO", nullable = false)
+    private LocalDate fechaLanzamiento;
+
+    @Column(name = "IMAGEN", nullable = false)
     private String imagen;
-    private Disquera disquera;
+
+    @ManyToOne
+    @JoinColumn(name = "TBL_ARTISTA_ID")
     private Artista artista;
+
+    @ManyToOne
+    @JoinColumn(name = "TBL_DISQUERA_ID")
+    private Disquera disquera;
+
+    @ManyToOne
+    @JoinColumn(name = "TBL_GENERO_MUSICAL_ID")
     private GeneroMusical generoMusical;
-
-    public Disco()
-    {
-    }
-
-    public Disco(String tituloDisco, double precio, int existencias, double descuento, String fechaLanzamiento, String imagen, Disquera disquera, Artista artista, GeneroMusical generoMusical) {
-        this.tituloDisco = tituloDisco;
-        this.precio = precio;
-        this.existencias = existencias;
-        this.descuento = descuento;
-        this.fechaLanzamiento = fechaLanzamiento;
-        this.imagen = imagen;
-        this.disquera = disquera;
-        this.artista = artista;
-        this.generoMusical = generoMusical;
-    }
-
-    public String getTituloDisco() {
-        return tituloDisco;
-    }
-
-    public void setTituloDisco(String tituloDisco) {
-        this.tituloDisco = tituloDisco;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getExistencias() {
-        return existencias;
-    }
-
-    public void setExistencias(int existencias) {
-        this.existencias = existencias;
-    }
-
-    public double getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(double descuento) {
-        this.descuento = descuento;
-    }
-
-    public String getFechaLanzamiento() {
-        return fechaLanzamiento;
-    }
-
-    public void setFechaLanzamiento(String fechaLanzamiento) {
-        this.fechaLanzamiento = fechaLanzamiento;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public Disquera getDisquera() {
-        return disquera;
-    }
-
-    public void setDisquera(Disquera disquera) {
-        this.disquera = disquera;
-    }
-
-    public Artista getArtista() {
-        return artista;
-    }
-
-    public void setArtista(Artista artista) {
-        this.artista = artista;
-    }
-
-    public GeneroMusical getGeneroMusical() {
-        return generoMusical;
-    }
-
-    public void setGeneroMusical(GeneroMusical generoMusical) {
-        this.generoMusical = generoMusical;
-    }
-
-    @Override
-    public String toString() {
-        return "Disco{" +
-                "tituloDisco='" + tituloDisco + '\'' +
-                ", precio=" + precio +
-                ", existencias=" + existencias +
-                ", descuento=" + descuento +
-                ", fechaLanzamiento='" + fechaLanzamiento + '\'' +
-                ", imagen='" + imagen + '\'' +
-                ", disquera=" + disquera.getDisquera() +
-                ", artista=" + artista.getArtista() +
-                ", generoMusical=" + generoMusical.getGeneroMusical() +
-                ", id=" + id +
-                '}';
-    }
 }

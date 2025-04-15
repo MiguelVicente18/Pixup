@@ -1,19 +1,20 @@
 package org.migueVA.Consola.Usuario;
 
 import org.migueVA.Consola.Catalogos.GestorCatalogos;
-import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
-import org.migueVA.Jdbc.Implementacion.EstadoJdbcImplementacion;
-import org.migueVA.Jdbc.Implementacion.MunicipioJdbcImplementacion;
 import org.migueVA.Model.Estado;
 import org.migueVA.Model.Municipio;
+import org.migueVA.SqlHibernate.GenericoSQL;
+import org.migueVA.SqlHibernate.Impl.EstadoHiberImpl;
+import org.migueVA.SqlHibernate.Impl.MunicipioHiberImpl;
 import org.migueVA.Util.ReadUtil;
 
 import java.io.File;
+import java.util.List;
 
 public class MunicipioCatalogo extends GestorCatalogos<Municipio>
 {
     private static MunicipioCatalogo municipioCatalogo;
-    private static final GenericoJdbc<Municipio> municipioJdbc =MunicipioJdbcImplementacion.getInstance();
+    private static final GenericoSQL<Municipio> municipioSql = MunicipioHiberImpl.getInstance();
 
     public static MunicipioCatalogo getInstance( )
     {
@@ -26,7 +27,7 @@ public class MunicipioCatalogo extends GestorCatalogos<Municipio>
 
     private MunicipioCatalogo( )
     {
-        super(MunicipioJdbcImplementacion.getInstance());
+        super(MunicipioHiberImpl.getInstance());
     }
 
     @Override
@@ -38,31 +39,34 @@ public class MunicipioCatalogo extends GestorCatalogos<Municipio>
     @Override
     public boolean processNewT(Municipio municipio)
     {
-        System.out.print(" *** Teclee el nombre del municipio: ");
-        municipio.setNombre( ReadUtil.read() );
+        System.out.print(" *** : Teclee el nombre del municipio: ");
+        municipio.setMunicipio( ReadUtil.read() );
 
-        System.out.print(" *** Teclee el ID del estado al que pertenece: ");
-        Estado estado = EstadoJdbcImplementacion.getInstance().findById(ReadUtil.readInt());
+        EstadoHiberImpl estadoSql = EstadoHiberImpl.getInstance();
+        List<Estado> list = estadoSql.findAll();
+        list.forEach(System.out::println);
+        System.out.print(" *** :  Teclee el ID del estado al que pertenece: ");
 
+        Estado estado = EstadoHiberImpl.getInstance().findById(ReadUtil.readInt());
         if(estado==null)
         {
+            System.out.println(" ***  No encontrado. *** ");
             return false;
         }
         municipio.setEstado(estado);
 
-        municipioJdbc.save(municipio);
+        municipioSql.save(municipio);
         return true;
     }
 
     @Override
-    public void edit(Municipio municipio)
+    public boolean processEditT (Municipio municipio)
     {
-        System.out.print(" *** Ingrese el ID del municipio a editar: ");
-        municipio.setId( ReadUtil.readInt() );
-        System.out.print(" *** Ingrese el nuevo nombre del municipio: ");
-        municipio.setNombre( ReadUtil.read() );
+        System.out.print(" *** : Ingrese el nuevo nombre del municipio: ");
+        municipio.setMunicipio( ReadUtil.read() );
 
-        municipioJdbc.update(municipio);
+        municipioSql.update(municipio);
+        return true;
     }
 
 }

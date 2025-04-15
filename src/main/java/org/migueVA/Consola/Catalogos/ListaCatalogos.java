@@ -27,10 +27,10 @@ public class ListaCatalogos extends LecturaAccion {
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n\t::: Lista de Catálogos Disponibles :::");
-        System.out.println( "1.- Usuarios");
-        System.out.println( "2.- Discos");
-        System.out.println( "3.- Salir");
+        System.out.println("\n *** : Lista de Catálogos Disponibles : *** ");
+        System.out.println( " *** : 1.- Usuarios");
+        System.out.println( " *** : 2.- Discos");
+        System.out.println( " *** : 3.- Salir");
         Menu.seleccionaOpcion();
     }
     @Override

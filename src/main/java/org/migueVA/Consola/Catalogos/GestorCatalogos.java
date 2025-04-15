@@ -1,8 +1,8 @@
 package org.migueVA.Consola.Catalogos;
 
-import org.migueVA.Jdbc.Conexiones.Conexion;
-import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
 import org.migueVA.Model.Catalogo;
+import org.migueVA.SqlHibernate.Conexion;
+import org.migueVA.SqlHibernate.GenericoSQL;
 import org.migueVA.Util.ReadUtil;
 import org.migueVA.Ventana.LecturaAccion;
 import org.migueVA.Ventana.Menu;
@@ -17,66 +17,118 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
     protected List<T> list;
     protected T t;
     protected boolean flag2;
-    protected GenericoJdbc<T> genericoJdbc;
+    protected GenericoSQL<T> genericoSQL;
 
-    public GestorCatalogos(GenericoJdbc<T> genericoJdbc) {
-        this.genericoJdbc = genericoJdbc;
+    public GestorCatalogos(GenericoSQL<T> genericoJdbc) {
+        this.genericoSQL = genericoJdbc;
         Conexion conexion = new Conexion() {
         };
         Connection connection = conexion.getConnection();
-        //list = new ArrayList<>();
     }
-
-    /*
-    public boolean isListEmpty() {
-        return list.isEmpty();
-    }*/
-
 
     public abstract T newT();
     public abstract boolean processNewT(T t);
-    public abstract void edit(T t);
+    public abstract boolean processEditT(T t);
 
-    public void print(){
-        List<T> list  = genericoJdbc.findAll();
-        if (list.isEmpty()){
-            System.out.println(" *** No hay Elementos Registrados *** ");
+    public void print()
+    {
+        List<T> list = genericoSQL.findAll();
+        if(list.isEmpty())
+        {
+            System.out.println(" *** No hay elementos registrados. *** ");
         }
-        list.stream().forEach(System.out::println);
+        list.forEach(System.out::println);
     }
 
-
-    public void add() {
-        t = newT();
-        if (processNewT(t)) {
-            System.out.println(" *** Elemento Añadido *** ");
+    public void add( )
+    {
+        t = newT( );
+        if(processNewT( t ))
+        {
+            System.out.println(" *** Elemento añadido con éxito. ***");
         }
     }
 
-    public void remove() {
-        List<T> list = genericoJdbc.findAll();
-        if (list.isEmpty()) {
-            System.out.println("*** No hay elementos para Eliminar ***");
+    public void edit( )
+    {
+        List<T> list = genericoSQL.findAll();
+        if( list.isEmpty( ) )
+        {
+            System.out.println( " ***  No hay elementos para editar. *** " );
             return;
         }
         flag2 = true;
-        while (flag2) {
-            System.out.println("***  Ingrese el ID del elemento a Eliminar: ");
-            t = list.stream().filter(e -> e.getId().equals(ReadUtil.readInt())).findFirst().orElse(null);
-            if (t == null) {
-                System.out.println("*** ID incorrecto, intentelo nuevamente ***");
-            } else {
-                if (genericoJdbc.delete(t)){
-                    System.out.println(" *** Elemento Eliminado *** ");
+        while ( flag2 )
+        {
+            list.forEach(System.out::println);
+            System.out.print( " *** Ingrese el ID del elemento a editar: " );
+
+            t = list.stream()
+                    .filter( e -> e.getId().equals( ReadUtil.readInt( ) ) )
+                    .findFirst()
+                    .orElse( null );
+
+            if( t==null )
+            {
+                System.out.println( " *** No se encontró el elemento. ***" );
+                System.out.print( " *** Deseas volver a intentarlo? s/n: ");
+                String respuesta = ReadUtil.read();
+
+                flag2 = respuesta.equalsIgnoreCase("S");
+            }
+            else
+            {
+                if(processEditT(t))
+                {
+                    System.out.println( " *** Elemento editado con éxito. ***" );
                 }
                 flag2 = false;
             }
         }
     }
 
-    public void findById() {
-        System.out.print(" ***  Ingresa un ID para buscar: ");
-        t = genericoJdbc.findById( ReadUtil.readInt() );
+    public void remove( )
+    {
+        List<T> list = genericoSQL.findAll();
+        if( list.isEmpty( ) )
+        {
+            System.out.println( "***  No hay elementos para eliminar. *** " );
+            return;
+        }
+        flag2 = true;
+        while ( flag2 )
+        {
+            list.forEach(System.out::println);
+            System.out.print( " *** Ingrese el ID del elemento a eliminar: " );
+
+            t = list.stream()
+                    .filter( e -> e.getId().equals( ReadUtil.readInt( ) ) )
+                    .findFirst()
+                    .orElse( null );
+
+            if( t==null )
+            {
+                System.out.println( " *** No se encontró el elemento. ***" );
+                System.out.print( " *** Deseas volver a intentarlo? s/n: ");
+                String respuesta = ReadUtil.read();
+
+                flag2 = respuesta.equalsIgnoreCase("Si");
+            }
+            else
+            {
+                if(genericoSQL.delete(t))
+                {
+                    System.out.println( " *** Elemento eliminado con éxito. ***" );
+                }
+                flag2 = false;
+            }
+        }
+    }
+
+    public void findById()
+    {
+        System.out.print("*** Ingresa un ID para buscar: ");
+        t = genericoSQL.findById( ReadUtil.readInt() );
 
         if(t!=null)
         {
@@ -84,19 +136,21 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
         }
         else
         {
-            System.out.println(" *** No existe un elemento con dicho ID.");
+            System.out.println("*** No existe un elemento con ese ID. ***");
         }
     }
 
-    public void despliegaMenu() {
-        System.out.println("\n\t:: Gestión de catálogos ::");
-        System.out.println("Seleccione una opción:");
-        System.out.println("1.- Agregar");
-        System.out.println("2.- Eliminar");
-        System.out.println("3.- Editar");
-        System.out.println("4.- Imprimir elementos en lista");
-        System.out.println("5.- Obtener por su Id");
-        System.out.println("6.- Salir");
+    @Override
+    public void despliegaMenu()
+    {
+        System.out.println("\n **** : Gestión de catálogos : ***");
+        System.out.println(" *** : Seleccione una opción: ");
+        System.out.println(" *** : 1.- Agregar");
+        System.out.println(" *** : 2.- Eliminar");
+        System.out.println(" *** : 3.- Editar");
+        System.out.println(" *** : 4.- Imprimir elementos en lista");
+        System.out.println(" *** : 5.- Obtener por su ID");
+        System.out.println(" *** : 6.- Salir");
         Menu.seleccionaOpcion();
     }
 
@@ -113,22 +167,25 @@ public abstract class GestorCatalogos<T extends Catalogo>  extends LecturaAccion
     }
 
     @Override
-    public void procesaOpcion() {
-        switch (opcion) {
+    public void procesaOpcion()
+    {
+        switch (opcion)
+        {
             case 1:
-                add();
+                add( );
                 break;
             case 2:
-                remove();
+                remove( );
                 break;
             case 3:
-                edit(t);
+                edit( );
                 break;
             case 4:
-                print();
+                print( );
                 break;
             case 5:
-                findById();
+                findById( );
+                break;
             default:
                 Menu.opcionInvalida();
         }

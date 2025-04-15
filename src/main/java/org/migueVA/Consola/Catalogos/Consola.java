@@ -22,11 +22,11 @@ public class Consola extends LecturaAccion {
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n\t::: Menú principal :::");
-        System.out.println("\t> Selecciona una opción:");
-        System.out.println("1. Catalogo");
-        System.out.println("2. Pendiente");
-        System.out.println("3. Salir");
+        System.out.println("\n *** : Menú principal : *** ");
+        System.out.println(" *** : Selecciona una opción:");
+        System.out.println(" *** : 1. Catalogo");
+        System.out.println(" *** : 2. Pendiente");
+        System.out.println(" *** : 3. Salir");
         Menu.seleccionaOpcion();
     }
 

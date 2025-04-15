@@ -21,13 +21,13 @@ public class ListaDisco extends LecturaAccion {
 
     @Override
     public void despliegaMenu() {
-        System.out.println("\n\t::: Catálogo de Discos :::");
-        System.out.println( "1.- Artista");
-        System.out.println( "2.- Disquera");
-        System.out.println( "3.- Genero músical");
-        System.out.println( "4.- Disco" );
-        System.out.println( "5.- Canción" );
-        System.out.println( "6.- Salir");
+        System.out.println("\n *** :  Catálogo de Discos : ***");
+        System.out.println( " *** : 1.- Artista");
+        System.out.println( " *** : 2.- Disquera");
+        System.out.println( " *** : 3.- Genero músical");
+        System.out.println( " *** : 4.- Disco" );
+        System.out.println( " *** : 5.- Canción" );
+        System.out.println( " *** :      6.- Salir");
         Menu.seleccionaOpcion();
     }
 

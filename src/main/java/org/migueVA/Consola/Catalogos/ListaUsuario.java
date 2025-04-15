@@ -23,11 +23,11 @@ public class ListaUsuario extends LecturaAccion {
 
     @Override
     public void despliegaMenu() {
-        System.out.println("\n\t::: Catálogo de Usuarios :::");
-        System.out.println( "1.- Estado");
-        System.out.println( "2.- Municipio");
-        System.out.println( "3.- Colonia");
-        System.out.println( "4.- Salir");
+        System.out.println("\n *** : Catálogo de Usuarios : ***");
+        System.out.println( " *** : 1.- Estado");
+        System.out.println( " *** : 2.- Municipio");
+        System.out.println( " *** : 3.- Colonia");
+        System.out.println( " *** : 4.- Salir");
         Menu.seleccionaOpcion();
     }
 

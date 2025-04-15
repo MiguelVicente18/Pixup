@@ -24,11 +24,11 @@ public class ConsolaVentana extends LecturaAccion
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n *** ¡Bienvenido a PixUp! *** ");
-        System.out.println("\t> Selecciona tu método de acceso:");
-        System.out.println("1. Consola");
-        System.out.println("2. Ventana");
-        System.out.println("3. Salir");
+        System.out.println("\n *** : ¡Bienvenido a PixUp! : *** ");
+        System.out.println(" *** : Selecciona tu método de acceso:");
+        System.out.println(" *** : 1. Consola");
+        System.out.println(" *** : 2. Ventana");
+        System.out.println(" *** : 3. Salir");
         Menu.seleccionaOpcion();
     }
 

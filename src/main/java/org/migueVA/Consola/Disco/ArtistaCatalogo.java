@@ -1,19 +1,19 @@
 package org.migueVA.Consola.Disco;
 
 import org.migueVA.Consola.Catalogos.GestorCatalogos;
-import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
-import org.migueVA.Jdbc.Implementacion.ArtistaJdbcImplementacion;
 import org.migueVA.Model.Artista;
+import org.migueVA.SqlHibernate.GenericoSQL;
+import org.migueVA.SqlHibernate.Impl.ArtistaHiberImpl;
 import org.migueVA.Util.ReadUtil;
 
 
 public class ArtistaCatalogo extends GestorCatalogos<Artista> {
     private static ArtistaCatalogo artistaCatalogo;
-    private static final GenericoJdbc<Artista> artistaJdbc = ArtistaJdbcImplementacion.getInstance();
+    private static final GenericoSQL<Artista> artistaSql = ArtistaHiberImpl.getInstance();
 
     private ArtistaCatalogo()
     {
-        super(ArtistaJdbcImplementacion.getInstance());
+        super(ArtistaHiberImpl.getInstance());
     }
 
     public static ArtistaCatalogo getInstance()
@@ -36,19 +36,18 @@ public class ArtistaCatalogo extends GestorCatalogos<Artista> {
     {
         System.out.print(" *** Ingrese el nombre del artista: ");
         artista.setArtista( ReadUtil.read() );
-        artistaJdbc.save(artista);
+        artistaSql.save(artista);
         return true;
     }
 
     @Override
-    public void edit(Artista artista)
+    public boolean  processEditT(Artista artista)
     {
-        System.out.print(" *** Ingrese el ID del estado a editar: ");
-        artista.setId( ReadUtil.readInt() );
-        System.out.print(" ***  Ingrese el nuevo nombre del estado: ");
+        System.out.print("> Ingrese el nuevo nombre del artista: ");
         artista.setArtista( ReadUtil.read() );
 
-        artistaJdbc.update(artista);
+        artistaSql.update(artista);
+        return true;
     }
 
 }

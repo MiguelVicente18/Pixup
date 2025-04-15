@@ -1,9 +1,9 @@
 package org.migueVA.Consola.Disco;
 
 import org.migueVA.Consola.Catalogos.GestorCatalogos;
-import org.migueVA.Jdbc.Conexiones.GenericoJdbc;
-import org.migueVA.Jdbc.Implementacion.GeneroMusicalJdbcImplementacion;
 import org.migueVA.Model.GeneroMusical;
+import org.migueVA.SqlHibernate.GenericoSQL;
+import org.migueVA.SqlHibernate.Impl.GeneroMusicalHiberImpl;
 import org.migueVA.Util.ReadUtil;
 
 import java.io.File;
@@ -11,11 +11,11 @@ import java.io.File;
 public class GeneroMusicalCatalogo extends GestorCatalogos<GeneroMusical>
 {
     private static GeneroMusicalCatalogo generoMusicalCatalogo;
-    private static final GenericoJdbc<GeneroMusical> generoMusicalJdbc = GeneroMusicalJdbcImplementacion.getInstance();
+    private static final GenericoSQL<GeneroMusical> genericoSQL = GeneroMusicalHiberImpl.getInstance();
 
     private GeneroMusicalCatalogo()
     {
-        super(GeneroMusicalJdbcImplementacion.getInstance());
+        super(GeneroMusicalHiberImpl.getInstance());
     }
 
     public static GeneroMusicalCatalogo getInstance()
@@ -36,19 +36,18 @@ public class GeneroMusicalCatalogo extends GestorCatalogos<GeneroMusical>
     public boolean processNewT(GeneroMusical generoMusical)
     {
         System.out.print(" *** Ingrese el género musical: ");
-        generoMusical.setGeneroMusical( ReadUtil.read() );
-        generoMusicalJdbc.save(generoMusical);
+        generoMusical.setGenero( ReadUtil.read() );
+        genericoSQL.save(generoMusical);
         return true;
     }
 
     @Override
-    public void edit(GeneroMusical generoMusical)
+    public boolean processEditT(GeneroMusical generoMusical)
     {
-        System.out.print(" *** Ingrese el ID del género musical a editar: ");
-        generoMusical.setId( ReadUtil.readInt() );
         System.out.print(" *** Ingrese el nuevo nombre del género musical: ");
-        generoMusical.setGeneroMusical( ReadUtil.read() );
+        generoMusical.setGenero( ReadUtil.read() );
 
-        generoMusicalJdbc.update(generoMusical);
+        genericoSQL.update(generoMusical);
+        return true;
     }
 }

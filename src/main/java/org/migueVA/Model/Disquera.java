@@ -1,29 +1,19 @@
 package org.migueVA.Model;
 
+import lombok.*;
+import javax.persistence.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString (callSuper = true)
+@Entity
+@Table(name ="TBL_DISQUERA")
+
 public class Disquera extends Catalogo
 {
+    @Column (name = "DISQUERA", nullable = false)
     private String disquera;
 
-    public Disquera() {
-    }
-
-    public Disquera(String disquera) {
-        this.disquera = disquera;
-    }
-
-    public String getDisquera() {
-        return disquera;
-    }
-
-    public void setDisquera(String disquera) {
-        this.disquera = disquera;
-    }
-
-    @Override
-    public String toString() {
-        return "Disquera{" +
-                "disquera='" + disquera + '\'' +
-                ",Id=" + id +
-                '}';
-    }
 }

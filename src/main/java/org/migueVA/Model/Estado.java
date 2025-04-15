@@ -1,32 +1,18 @@
 package org.migueVA.Model;
 
-import java.io.Serializable;
+import lombok.*;
+import javax.persistence.*;
 
-public class Estado extends Catalogo implements Serializable {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString (callSuper = true)
+@Entity
+@Table(name ="TBL_ESTADO")
 
-    private String nombre;
-
-    public Estado() {
-    }
-
-    public Estado(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Estado {" +
-                "nombre='" + nombre + '\'' +
-                ", id=" + id +
-                '}';
-    }
+public class Estado extends Catalogo
+{
+    @Column (name = "ESTADO", nullable = false)
+    private String estado;
 }

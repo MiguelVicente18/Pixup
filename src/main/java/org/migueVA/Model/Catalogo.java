@@ -1,30 +1,16 @@
 package org.migueVA.Model;
 
+import jakarta.persistence.*;
+import lombok.*;
 import java.io.Serializable;
 
-public class Catalogo implements Serializable {
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
+public abstract class Catalogo implements Serializable{
+    @Id
+    @Column (name = "ID")
+    @GeneratedValue (strategy = GenerationType.IDENTITY )
     protected Integer id;
-
-    public Catalogo()
-    {
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Catalogo{" +
-                "id=" + id +
-                '}';
-    }
 }

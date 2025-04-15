@@ -1,10 +1,10 @@
-package org.migueVA.Jdbc.Conexiones;
+package org.migueVA.SqlHibernate;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class Conexion{
+public abstract class Conexion {
     public static String user = "root";
     public static String password = "n0m3l0";
     public static String db = "pixup";
