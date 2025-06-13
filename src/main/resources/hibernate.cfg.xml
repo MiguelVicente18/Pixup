@@ -22,13 +22,13 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.use_sql_comments">true</property>
         <property name="hibernate.transform_hbm_xml.enabled">true</property>
-        <mapping class="org.migueVA.Model.Estado"/>
-        <mapping class="org.migueVA.Model.Municipio"/>
-        <mapping class="org.migueVA.Model.Colonia"/>
-        <mapping class="org.migueVA.Model.Artista"/>
-        <mapping class="org.migueVA.Model.Disquera"/>
-        <mapping class="org.migueVA.Model.GeneroMusical"/>
-        <mapping class="org.migueVA.Model.Cancion"/>
-        <mapping class="org.migueVA.Model.Disco"/>
+        <mapping class="org.migueVA.Model.domicilio.Estado"/>
+        <mapping class="org.migueVA.Model.domicilio.Municipio"/>
+        <mapping class="org.migueVA.Model.domicilio.Colonia"/>
+        <mapping class="org.migueVA.Model.disco.Artista"/>
+        <mapping class="org.migueVA.Model.disco.Disquera"/>
+        <mapping class="org.migueVA.Model.disco.GeneroMusical"/>
+        <mapping class="org.migueVA.Model.disco.Cancion"/>
+        <mapping class="org.migueVA.Model.disco.Disco"/>
     </session-factory>
 </hibernate-configuration>

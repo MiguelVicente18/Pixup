@@ -1,104 +1,66 @@
 package org.migueVA.Util;
 import java.util.Scanner;
 
-public class ReadUtil
-{
+public class ReadUtil {
     private Scanner scanner;
     private static ReadUtil readUtil;
 
-    private ReadUtil()
-    {
-        scanner = new Scanner( System.in );
+    private ReadUtil() {
+        scanner = new Scanner(System.in);
     }
 
-    public Scanner getScanner()
-    {
+    public Scanner getScanner() {
         return scanner;
     }
 
-    public static ReadUtil getInstance( )
-    {
-        if(readUtil==null)
-        {
+    public static ReadUtil getInstance() {
+        if (readUtil == null) {
             readUtil = new ReadUtil();
         }
         return readUtil;
     }
 
-    public static String read( )
-    {
-        return getInstance( ).getScanner( ).nextLine();
+    public static String read(String mensaje) {
+        System.out.print(mensaje);
+        return getInstance().getScanner().nextLine();
     }
 
-    public static Integer readInt( )
-    {
+    public static Integer readInt(String mensaje, Integer min, Integer max) {
         String valor = null;
-        boolean flag = true;
         Integer aux = null;
 
-        while (flag)
-        {
-            valor = read();
-            if (valor != null && !valor.isEmpty())
-            {
-                try
-                {
-                    aux = Integer.valueOf(valor);
-                    if (aux != null)
-                    {
-                        return aux;
-                    }
-                }
-                catch (Exception e)
-                {
-                }
-            }
-            System.out.println( "Valor incorrecto, intentelo nuevamente" );
-        }
-        return null;
-    }
-
-    public static Float readFloat() {
-        String valor;
-        boolean flag = true;
-        Float aux = null;
-
-        while (flag) {
-            valor = read();
+        while (true) {
+            valor = read(mensaje);
             if (valor != null && !valor.isEmpty()) {
                 try {
-                    aux = Float.valueOf(valor);
-                    return aux;
+                    aux = Integer.valueOf(valor);
+                    if ((aux != null) && ((aux >= min) && (aux <= max))) {
+                        return aux;
+                    }
                 } catch (Exception e) {
-                    // Ignorar la excepción y mostrar mensaje de error
                 }
             }
-            System.out.println("Valor incorrecto, inténtelo nuevamente");
+            Funciones.errorDato();
         }
-        return null;
     }
 
-    public static Integer string2Integer( String valor )
-    {
-        try
-        {
-            return Integer.valueOf(valor);
+    public static Integer readInt(String mensaje) {
+        String valor = null;
+        Integer aux = null;
+
+        while (true) {
+            valor = read(mensaje);
+            if (valor != null && !valor.isEmpty()) {
+                try {
+                    aux = Integer.valueOf(valor);
+                    if ((aux != null)) {
+                        return aux;
+                    }
+                } catch (Exception e) {
+                }
+            }
+            Funciones.errorDato();
         }
-        catch (Exception e)
-        {
-        }
-        return null;
     }
 
-    public static Double string2Double( String valor )
-    {
-        try
-        {
-            return Double.valueOf(valor);
-        }
-        catch (Exception e)
-        {
-        }
-        return null;
-    }
 }
