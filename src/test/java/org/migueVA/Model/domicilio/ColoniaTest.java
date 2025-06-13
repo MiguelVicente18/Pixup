@@ -10,7 +10,7 @@ class ColoniaTest {
     @Test
     void alta() {
         String nombre = "Prueba Colonia 1 ";
-        Integer idMunicipio = 2;
+        Integer idMunicipio = 1;
 
         boolean resultado = coloniaManage.alta(nombre,idMunicipio);
         assertTrue(resultado, "El alta de la Colonia debe ser exitosa");
@@ -18,8 +18,8 @@ class ColoniaTest {
 
     @Test
     void cambio() {
-        String nombreNuevo = "Cambio Colonia 1.2 ";
-        Integer idMunicipio= 2;
+        String nombreNuevo = "Cambio Colonia 2 ";
+        Integer idMunicipio= 1;
 
         boolean resultado = coloniaManage.cambio(1,nombreNuevo,idMunicipio);
         assertTrue(resultado, "El cambio  de la Colonia debe ser exitosa");

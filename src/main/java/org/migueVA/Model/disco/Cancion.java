@@ -19,15 +19,11 @@ import org.migueVA.baseDatos.impl.CatalogoDaoImpl;
 public class Cancion extends ClaseCatalogo
 {
 
-    @Column(name = "DURACION")
+    @Column(name = "duracion")
     private Double duracion;
 
     @Column(name = "idDisco")
     private Integer idDisco;
-
-    @ManyToOne
-    @JoinColumn(name = "TBL_DISCO_ID")
-    private Disco disco;
 
     protected static CatalogoDaoImpl<Cancion> catalogoDaoImpl = new CatalogoDaoImpl<>(Cancion.class);
 

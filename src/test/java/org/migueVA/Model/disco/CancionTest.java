@@ -10,9 +10,9 @@ class CancionTest {
 
     @Test
     void alta() {
-        String nombre = "Cancion Prueba 1";
+        String nombre = "Prueba Cancion 1";
         Double duracion = 3.5;
-        Integer idDisco = 3;
+        Integer idDisco = 1;
 
         boolean resultado = cancionManage.alta(nombre, duracion, idDisco);
         assertTrue(resultado, "El alta de la cancion debe ser exitosa");
@@ -20,17 +20,17 @@ class CancionTest {
 
     @Test
     void cambio() {
-        String nombreNuevo = "Cancion 1.1";
+        String nombreNuevo = "Cambio Cancion 2";
         Double duracionNueva = 4.0;
-        Integer idDiscoNuevo = 3;
+        Integer idDiscoNuevo = 1;
 
-        boolean resultado = cancionManage.cambio(3, nombreNuevo, duracionNueva, idDiscoNuevo);
+        boolean resultado = cancionManage.cambio(1, nombreNuevo, duracionNueva, idDiscoNuevo);
         assertTrue(resultado, "La modificación de la cancion debe ser exitosa");
     }
 
     @Test
     void baja() {
-        boolean resultado = cancionManage.baja(3);
+        boolean resultado = cancionManage.baja(1);
         assertTrue(resultado, "La baja de la cancion debe ser exitosa");
     }
 

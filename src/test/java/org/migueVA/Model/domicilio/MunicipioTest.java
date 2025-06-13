@@ -10,8 +10,8 @@ class MunicipioTest {
 
     @Test
     void alta() {
-        String nombre = "Prueba Municipio 2 ";
-        Integer idEstado = 4;
+        String nombre = "Prueba Municipio 1 ";
+        Integer idEstado = 1;
 
         boolean resultado = municipioManage.alta(nombre,idEstado);
         assertTrue(resultado, "El alta del Municipio debe ser exitosa");
@@ -20,7 +20,7 @@ class MunicipioTest {
     @Test
     void cambio() {
         String nombreNuevo = "Cambio Municipio 2 ";
-        Integer idEstado = 2;
+        Integer idEstado = 1;
 
         boolean resultado = municipioManage.cambio(1,nombreNuevo,idEstado);
         assertTrue(resultado, "El cambio  del Municipio debe ser exitosa");
@@ -28,7 +28,7 @@ class MunicipioTest {
 
     @Test
     void baja() {
-        boolean resultado = municipioManage.baja(2);
+        boolean resultado = municipioManage.baja(1);
         assertTrue(resultado, "La baja del municipio debe ser exitosa");
 
     }

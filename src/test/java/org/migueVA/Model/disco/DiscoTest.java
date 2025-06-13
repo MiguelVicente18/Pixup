@@ -16,9 +16,9 @@ class DiscoTest {
         Double descuento = 0.2;
         String fechaLanzamiento = "01/01/2025";
         String imagen = "ruta/imagen.jpg";
-        Integer idArtista = 7;
-        Integer idDisquera = 3;
-        Integer idGeneroMusical = 3;
+        Integer idArtista = 1;
+        Integer idDisquera = 1;
+        Integer idGeneroMusical = 1;
 
         boolean resultado = discoManage.alta(nombre, precio, existencia, descuento, fechaLanzamiento, imagen, idArtista, idDisquera, idGeneroMusical);
         assertTrue(resultado, "El alta del disco debe ser exitosa");
@@ -32,17 +32,17 @@ class DiscoTest {
         Double descuentoNuevo = 0.4;
         String fechaLanzamientoNueva = "01/02/2023";
         String imagenNueva = "nueva/ruta/imagen.jpg";
-        Integer idArtistaNuevo = 7;
-        Integer idDisqueraNuevo = 3;
-        Integer idGeneroMusicalNuevo = 3;
+        Integer idArtistaNuevo = 1;
+        Integer idDisqueraNuevo = 1;
+        Integer idGeneroMusicalNuevo = 1;
 
-        boolean resultado = discoManage.cambio(2, nombreNuevo, precioNuevo, existenciaNueva, descuentoNuevo, fechaLanzamientoNueva, imagenNueva, idArtistaNuevo, idDisqueraNuevo, idGeneroMusicalNuevo);
+        boolean resultado = discoManage.cambio(1, nombreNuevo, precioNuevo, existenciaNueva, descuentoNuevo, fechaLanzamientoNueva, imagenNueva, idArtistaNuevo, idDisqueraNuevo, idGeneroMusicalNuevo);
         assertTrue(resultado, "La modificación del disco debe ser exitosa");
     }
 
     @Test
     void baja() {
-        boolean resultado = discoManage.baja(2);
+        boolean resultado = discoManage.baja(1);
         assertTrue(resultado, "La baja del disco debe ser exitosa");
     }
 
